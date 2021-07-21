@@ -21,7 +21,7 @@ $CERT = Get-ExchangeCertificate -Server $SOURCE | ? {$_.Services -Like "*IIS*" -
 $PASS = ConvertTo-SecureString "123456" -AsPlainText -Force
 mkdir C:\temp -ErrorAction SilentlyContinue | Out-Null
 Export-ExchangeCertificate -Server $SOURCE -Thumbprint $CERT.Thumbprint -FileName C:\temp\ExchangeCert-Temp.pfx -Password $PASS | Out-Null
-Import-ExchangeCertificate -Server (hostname) -FileName C:\temp\ExchangeCert2020.pfx -PrivateKeyExportable $true -Password $PASS
+Import-ExchangeCertificate -Server (hostname) -FileName C:\temp\ExchangeCert-Temp.pfx -PrivateKeyExportable $true -Password $PASS
 Remove-Item "C:\temp\ExchangeCert-Temp.pfx" -ErrorAction SilentlyContinue -Confirm:$False
 Enable-ExchangeCertificate -Thumbprint $CERT.Thumbprint -Services IIS -DoNotRequireSsl
 Get-ExchangeCertificate | ? {$_.Services -Like "*IIS*" -and $_.IsSelfSigned -eq $false} | FL CertificateDomains,Thumbprint,NotAfter,Issuer,Services
