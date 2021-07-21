@@ -16,7 +16,7 @@ $CAS = Get-ClientAccessService $SOURCE | select AutodiscoverServiceInternaluri
 Set-ClientAccessService (hostname) -AutodiscoverServiceInternaluri $CAS.AutodiscoverServiceInternaluri
 Get-ClientAccessService | FT Name,AutodiscoverServiceInternaluri -au
 
-ECHO "Copying Exchange certificate:"
+ECHO "Copying Exchange certificate..."
 $CERT = Get-ExchangeCertificate -Server $SOURCE | ? {$_.Services -Like "*IIS*" -and $_.IsSelfSigned -eq $false} | select Thumbprint
 $PASS = ConvertTo-SecureString "123456" -AsPlainText -Force
 mkdir C:\temp -ErrorAction SilentlyContinue | Out-Null
@@ -26,7 +26,7 @@ Remove-Item "C:\temp\ExchangeCert-Temp.pfx" -ErrorAction SilentlyContinue -Confi
 Enable-ExchangeCertificate -Thumbprint $CERT.Thumbprint -Services IIS -DoNotRequireSsl
 Get-ExchangeCertificate | ? {$_.Services -Like "*IIS*" -and $_.IsSelfSigned -eq $false} | FL CertificateDomains,Thumbprint,NotAfter,Issuer,Services
 
-ECHO "Copying Virtual Directory settings:"
+ECHO "Copying Virtual Directory URL's..."
 $MAPI = Get-MapiVirtualDirectory -Server $SOURCE -AdPropertiesOnly
 Get-MapiVirtualDirectory -Server (hostname) | Set-MapiVirtualDirectory -InternalUrl $MAPI.InternalUrl -ExternalUrl $MAPI.ExternalUrl
 $EWS = Get-WebServicesVirtualDirectory -Server $SOURCE -AdPropertiesOnly
