@@ -6,11 +6,11 @@
     Usage       : Run from elevated instance of Exchange Management Shell on the target (new) Exchange server.
 #>
 
-ECHO "From which server would you like to copy settings from:"
+ECHO "From which Exchange server would you like to copy settings from?"
 $SOURCE = (Read-Host)
 Get-ExchangeServer $SOURCE -ErrorAction Stop
 
-ECHO "Updating AutoDiscover Sevice Connection Point:"
+ECHO "Updating AutoDiscover Sevice Connection Point..."
 Get-ClientAccessService | FT Name,AutodiscoverServiceInternaluri -au
 $CAS = Get-ClientAccessService $SOURCE | select AutodiscoverServiceInternaluri
 Set-ClientAccessService (hostname) -AutodiscoverServiceInternaluri $CAS.AutodiscoverServiceInternaluri
