@@ -20,8 +20,8 @@ ECHO "Copying Exchange certificate..."
 $CERT = Get-ExchangeCertificate -Server $SOURCE | ? {$_.Services -Like "*IIS*" -and $_.IsSelfSigned -eq $false} | select Thumbprint
 $PASS = ConvertTo-SecureString "123456" -AsPlainText -Force
 mkdir C:\temp -ErrorAction SilentlyContinue | Out-Null
-$bincert = Export-ExchangeCertificate -Thumbprint $CERT.Thumbprint -BinaryEncoded -Password (ConvertTo-SecureString -String '123456' -AsPlainText -Force)
-[System.IO.File]::WriteAllBytes('C:\Temp\HT cert.pfx', $bincert.FileData)
+$bincert = Export-ExchangeCertificate -Server $SOURCE -Thumbprint $CERT.Thumbprint -BinaryEncoded -Password (ConvertTo-SecureString -String '123456' -AsPlainText -Force)
+[System.IO.File]::WriteAllBytes('C:\Temp\ExchangeCert-Temp.pfx', $bincert.FileData)
 Import-ExchangeCertificate -Server (hostname) -FileData ([System.IO.File]::ReadAllBytes('\\localhost\C$\temp\ExchangeCert-Temp.pfx')) -PrivateKeyExportable $true -Password $PASS
 Remove-Item "C:\temp\ExchangeCert-Temp.pfx" -ErrorAction SilentlyContinue -Confirm:$False
 Enable-ExchangeCertificate -Thumbprint $CERT.Thumbprint -Services IIS -DoNotRequireSsl
