@@ -1,7 +1,7 @@
 <#
     Name        : CopyExchangeServerSettings.ps1
-    Version     : 2.0.0.2
-    Last Update : 2022/05/22
+    Version     : 2.0.0.4
+    Last Update : 2022/05/29
     Created by  : David Danino, Microsoft
     Usage       : Run from elevated instance of Exchange Management Shell on the target (new) Exchange server.
 #>
@@ -30,6 +30,8 @@ Get-EcpVirtualDirectory -Server (hostname) | Set-EcpVirtualDirectory -InternalUr
 $OLA = Get-OutlookAnywhere -AdPropertiesOnly -Server $SOURCE
 Get-OutlookAnywhere -AdPropertiesOnly -Server (hostname) | Set-OutlookAnywhere -InternalHostname $OLA.InternalHostname -DefaultAuthenticationMethod Negotiate -InternalClientsRequireSsl $True
 
+Import-Module -Name WebAdministration
+Get-ItemProperty -Path 'IIS:\Sites\*' -Name logfile | Set-ItemProperty -Name Logfile.enabled -Value $False
 Restart-WebAppPool MSExchangeServicesAppPool
 Restart-WebAppPool MSExchangeAutodiscoverAppPool
 
