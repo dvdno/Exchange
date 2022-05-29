@@ -24,11 +24,11 @@ Get-WebServicesVirtualDirectory -Server (hostname) | Set-WebServicesVirtualDirec
 $OAB = Get-OabVirtualDirectory -Server $SOURCE -AdPropertiesOnly
 Get-OabVirtualDirectory -Server (hostname) | Set-OabVirtualDirectory -InternalUrl $OAB.InternalUrl -ExternalUrl $OAB.ExternalUrl
 $OWA = Get-OwaVirtualDirectory -Server $SOURCE -AdPropertiesOnly
-Get-OwaVirtualDirectory -Server (hostname) | Set-OwaVirtualDirectory -InternalUrl $OWA.InternalUrl -ExternalUrl $OWA.ExternalUrl
+Get-OwaVirtualDirectory -Server (hostname) | Set-OwaVirtualDirectory -InternalUrl $OWA.InternalUrl -ExternalUrl $OWA.ExternalUrl -WarningAction SilentlyContinue
 $ECP = Get-OwaVirtualDirectory -Server $SOURCE -AdPropertiesOnly
-Get-EcpVirtualDirectory -Server (hostname) | Set-EcpVirtualDirectory -InternalUrl $ECP.InternalUrl -ExternalUrl $ECP.ExternalUrl
+Get-EcpVirtualDirectory -Server (hostname) | Set-EcpVirtualDirectory -InternalUrl $ECP.InternalUrl -ExternalUrl $ECP.ExternalUrl -WarningAction SilentlyContinue
 $OLA = Get-OutlookAnywhere -AdPropertiesOnly -Server $SOURCE
-Get-OutlookAnywhere -AdPropertiesOnly -Server (hostname) | Set-OutlookAnywhere -InternalHostname $OLA.InternalHostname -DefaultAuthenticationMethod Negotiate -InternalClientsRequireSsl $True
+Get-OutlookAnywhere -AdPropertiesOnly -Server (hostname) | Set-OutlookAnywhere -InternalHostname $OLA.InternalHostname -DefaultAuthenticationMethod Negotiate -InternalClientsRequireSsl $True -WarningAction SilentlyContinue
 
 Import-Module -Name WebAdministration
 Get-ItemProperty -Path 'IIS:\Sites\*' | Set-ItemProperty -Name Logfile.enabled -Value $False
