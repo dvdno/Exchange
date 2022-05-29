@@ -31,7 +31,7 @@ $OLA = Get-OutlookAnywhere -AdPropertiesOnly -Server $SOURCE
 Get-OutlookAnywhere -AdPropertiesOnly -Server (hostname) | Set-OutlookAnywhere -InternalHostname $OLA.InternalHostname -DefaultAuthenticationMethod Negotiate -InternalClientsRequireSsl $True
 
 Import-Module -Name WebAdministration
-Get-ItemProperty -Path 'IIS:\Sites\*' -Name logfile | Set-ItemProperty -Name Logfile.enabled -Value $False
+Get-ItemProperty -Path 'IIS:\Sites\*' | Set-ItemProperty -Name Logfile.enabled -Value $False
 Restart-WebAppPool MSExchangeServicesAppPool
 Restart-WebAppPool MSExchangeAutodiscoverAppPool
 
