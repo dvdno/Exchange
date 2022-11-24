@@ -19,11 +19,11 @@ Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 
 ECHO "Copying Virtual Directory URL's..."
 $MAPI = Get-MapiVirtualDirectory -Server $SOURCE -AdPropertiesOnly
-Get-MapiVirtualDirectory -Server (hostname) | Set-MapiVirtualDirectory -InternalUrl $MAPI.InternalUrl -ExternalUrl $MAPI.ExternalUrl
+Get-MapiVirtualDirectory -Server (hostname) | Set-MapiVirtualDirectory -InternalUrl $MAPI.InternalUrl -ExternalUrl $MAPI.ExternalUrl -WarningAction SilentlyContinue
 $EWS = Get-WebServicesVirtualDirectory -Server $SOURCE -AdPropertiesOnly
-Get-WebServicesVirtualDirectory -Server (hostname) | Set-WebServicesVirtualDirectory -InternalUrl $EWS.InternalUrl -ExternalUrl $EWS.ExternalUrl
+Get-WebServicesVirtualDirectory -Server (hostname) | Set-WebServicesVirtualDirectory -InternalUrl $EWS.InternalUrl -ExternalUrl $EWS.ExternalUrl -WarningAction SilentlyContinue
 $OAB = Get-OabVirtualDirectory -Server $SOURCE -AdPropertiesOnly
-Get-OabVirtualDirectory -Server (hostname) | Set-OabVirtualDirectory -InternalUrl $OAB.InternalUrl -ExternalUrl $OAB.ExternalUrl
+Get-OabVirtualDirectory -Server (hostname) | Set-OabVirtualDirectory -InternalUrl $OAB.InternalUrl -ExternalUrl $OAB.ExternalUrl -WarningAction SilentlyContinue
 $OWA = Get-OwaVirtualDirectory -Server $SOURCE -AdPropertiesOnly
 Get-OwaVirtualDirectory -Server (hostname) | Set-OwaVirtualDirectory -InternalUrl $OWA.InternalUrl -ExternalUrl $OWA.ExternalUrl -WarningAction SilentlyContinue
 $ECP = Get-EcpVirtualDirectory -Server $SOURCE -AdPropertiesOnly
