@@ -10,11 +10,12 @@ ECHO "From which Exchange server would you like to copy settings from?"
 $SOURCE = (Read-Host)
 Get-ExchangeServer $SOURCE -ErrorAction Stop
 
-ECHO "Updating AutoDiscover Sevice Connection Point..."
-Get-ClientAccessService | FT Name,AutodiscoverServiceInternaluri -au
+ECHO "Existing AutoDiscover Sevice Connection Point:"
+Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 $CAS = Get-ClientAccessService $SOURCE | select AutodiscoverServiceInternaluri
 Set-ClientAccessService (hostname) -AutodiscoverServiceInternaluri $CAS.AutodiscoverServiceInternaluri
-Get-ClientAccessService | FT Name,AutodiscoverServiceInternaluri -au
+ECHO "Updated AutoDiscover Sevice Connection Point..."
+Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 
 ECHO "Copying Virtual Directory URL's..."
 $MAPI = Get-MapiVirtualDirectory -Server $SOURCE -AdPropertiesOnly
