@@ -14,6 +14,7 @@ Write-Host -ForegroundColor Blue "Existing AutoDiscover Sevice Connection Point:
 Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 $CAS = Get-ClientAccessService $SOURCE | select AutodiscoverServiceInternaluri
 Set-ClientAccessService (hostname) -AutodiscoverServiceInternaluri $CAS.AutodiscoverServiceInternaluri
+
 Write-Host -ForegroundColor Blue "Updated AutoDiscover Sevice Connection Point..."
 Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 
