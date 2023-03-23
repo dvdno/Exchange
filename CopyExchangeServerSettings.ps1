@@ -6,7 +6,7 @@
     Usage       : Run from elevated instance of Exchange Management Shell on the target (new) Exchange server.
 #>
 
-Write-Host -ForegroundColor Blue "From which Exchange server would you like to copy settings from?"
+Write-Host -ForegroundColor Cyan "From which Exchange server would you like to copy settings from?"
 $SOURCE = (Read-Host)
 Get-ExchangeServer $SOURCE -ErrorAction Stop
 
@@ -14,7 +14,7 @@ Write-Host -ForegroundColor Blue "Existing AutoDiscover Sevice Connection Point:
 Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 $CAS = Get-ClientAccessService $SOURCE | select AutodiscoverServiceInternaluri
 Set-ClientAccessService (hostname) -AutodiscoverServiceInternaluri $CAS.AutodiscoverServiceInternaluri
-ECHO "Updated AutoDiscover Sevice Connection Point..."
+Write-Host -ForegroundColor Blue "Updated AutoDiscover Sevice Connection Point..."
 Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 
 Write-Host -ForegroundColor Blue "Copying Virtual Directory URL's..."
