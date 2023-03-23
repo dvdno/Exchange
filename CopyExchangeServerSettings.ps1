@@ -6,18 +6,18 @@
     Usage       : Run from elevated instance of Exchange Management Shell on the target (new) Exchange server.
 #>
 
-ECHO "From which Exchange server would you like to copy settings from?"
+Write-Host -ForegroundColor Blue "From which Exchange server would you like to copy settings from?"
 $SOURCE = (Read-Host)
 Get-ExchangeServer $SOURCE -ErrorAction Stop
 
-ECHO "Existing AutoDiscover Sevice Connection Point:"
+Write-Host -ForegroundColor Blue "Existing AutoDiscover Sevice Connection Point:"
 Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 $CAS = Get-ClientAccessService $SOURCE | select AutodiscoverServiceInternaluri
 Set-ClientAccessService (hostname) -AutodiscoverServiceInternaluri $CAS.AutodiscoverServiceInternaluri
 ECHO "Updated AutoDiscover Sevice Connection Point..."
 Get-ClientAccessService (HOSTNAME) | FT Name,AutodiscoverServiceInternaluri -au
 
-ECHO "Copying Virtual Directory URL's..."
+Write-Host -ForegroundColor Blue "Copying Virtual Directory URL's..."
 $MAPI = Get-MapiVirtualDirectory -Server $SOURCE -AdPropertiesOnly
 Get-MapiVirtualDirectory -Server (hostname) | Set-MapiVirtualDirectory -InternalUrl $MAPI.InternalUrl -ExternalUrl $MAPI.ExternalUrl -WarningAction SilentlyContinue
 $EWS = Get-WebServicesVirtualDirectory -Server $SOURCE -AdPropertiesOnly
@@ -36,7 +36,7 @@ Get-ItemProperty -Path 'IIS:\Sites\*' | Set-ItemProperty -Name Logfile.enabled -
 Restart-WebAppPool MSExchangeServicesAppPool
 Restart-WebAppPool MSExchangeAutodiscoverAppPool
 
-ECHO "Copying Exchange certificate..."
+Write-Host -ForegroundColor Blue "Copying Exchange certificate..."
 $CERT = Get-ExchangeCertificate -Server $SOURCE | ? {$_.Services -Like "*IIS*" -and $_.IsSelfSigned -eq $false} | select Thumbprint
 $PASS = ConvertTo-SecureString "123456" -AsPlainText -Force
 mkdir C:\temp -ErrorAction SilentlyContinue | Out-Null
@@ -47,5 +47,5 @@ Remove-Item "C:\temp\ExchangeCert-Temp.pfx" -ErrorAction SilentlyContinue -Confi
 Enable-ExchangeCertificate -Thumbprint $CERT.Thumbprint -Services IIS -DoNotRequireSsl
 Get-ExchangeCertificate | ? {$_.Services -Like "*IIS*" -and $_.IsSelfSigned -eq $false} | FL CertificateDomains,Thumbprint,NotAfter,Issuer,Services
 
-ECHO "Script complete!"
-ECHO "Please review error messages for skipped items."
+Write-Host -ForegroundColor Green "Script complete!"
+Write-Host -ForegroundColor Cyan "Please review error messages for skipped items."
