@@ -1,7 +1,7 @@
 <#
     Name        : CopyExchangeServerSettings.ps1
-    Version     : 2.0.0.5
-    Last Update : 2022/11/27
+    Version     : 2.1.0.6
+    Last Update : 2026/09/22
     Created by  : David Danino, Microsoft
     Usage       : Run from elevated instance of Exchange Management Shell on the target (new) Exchange server.
 #>
