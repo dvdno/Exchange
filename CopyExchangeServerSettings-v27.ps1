@@ -129,7 +129,6 @@ Write-Section "Completed"
 Write-Host "Exchange settings were copied from $SOURCE to $TARGET." -ForegroundColor Green
 Write-Host "Review any warning or error messages above for skipped items." -ForegroundColor Gray
 
-# Authenticode signature removed because the script contents were modified.
 # Re-sign this file with a valid code-signing certificate before distribution.
 # Example:
 #   $cert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert
